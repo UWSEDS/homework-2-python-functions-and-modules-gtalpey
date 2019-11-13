@@ -7,7 +7,7 @@ def create_dataframe(url):
     return df
 
 
-# check data frame for columns in columns, at least 10 entries and that all datatypes are the same
+# check data frame for columns in columns, at least 10 entries
 def test_create_datadrame(df,columns):
     # set output to True, then look for conditions to turn False.
     a = True
@@ -18,7 +18,17 @@ def test_create_datadrame(df,columns):
     # check number of entries in data frame
     elif len(df) <= 10:
         a = False
-    # take 'set' of dypes in df. If length is 1, all data types are the same.
-    elif len(set(df.dtypes)) != 1:
-        a = False
     return a
+
+def test_dataframe_types(df):
+
+    # loop through columns
+    for column in df.columns.tolist():
+        # find type of first entry
+        datatype = type(df[column][0])
+        # loop through rows to check if the types match that of the first rows
+        for i in range(len(df[column])):
+            if datatype == type(df[column][i]):
+                continue
+            else:
+                raise TypeError('data types in %s do not match' %column)
